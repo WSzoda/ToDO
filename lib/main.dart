@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do/widgets/listOfTasksWidget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,27 +44,39 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _handleTaskDelete(int index) {
+    setState(() {
+      tasks.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(children: [
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _myController,
-                  onSubmitted: (value) => _handleNewTask(value),
-                  decoration: const InputDecoration(
-                    labelText: 'Add new Task',
-                    hintText: 'Throw trash away',
+          child: Column(
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _myController,
+                    onSubmitted: (value) => _handleNewTask(value),
+                    decoration: const InputDecoration(
+                      labelText: 'Add new Task',
+                      hintText: 'Throw trash away',
+                    ),
                   ),
                 ),
               ),
-            )
-          ]),
+              ListOfTasks(
+                tasks: tasks,
+                handleDelete: _handleTaskDelete,
+              )
+            ],
+          ),
         ),
       ),
     );
